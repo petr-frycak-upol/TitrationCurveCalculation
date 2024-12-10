@@ -18,8 +18,7 @@ def precalculate(c0_HCl: float, V0_HCl: float, c_NaOH: float, V_NaOH: float) -> 
     Na = c_NaOH * V_NaOH / (V0_HCl + V_NaOH)
     return Cl, Na
 
-def calculate_pH(V_NaOH: float) -> float:
-    initial_H_OH = [1e-7, 1e-7]
+def calculate_pH(V_NaOH: float, initial_H_OH: list[float]) -> float:
     solution = fsolve(equations, initial_H_OH, args=precalculate(c0_HCl, V0_HCl, c_NaOH, V_NaOH))
     H, OH = solution
 
