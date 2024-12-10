@@ -14,13 +14,13 @@ def equations(vars, precalculated_args):
     return[eq1, eq2]
 
 def precalculate(c0_HCl: float, V0_HCl: float, c_NaOH: float, V_NaOH: float) -> (float, float):
-    Cl = c0_HCl * V0_HCl / (V0_HCl * V_NaOH)
-    Na = c_NaOH * V_NaOH / (V0_HCl * V_NaOH)
-    return Cl, Na
+    Cl = c0_HCl * V0_HCl / (V0_HCl + V_NaOH)
+    Na = c_NaOH * V_NaOH / (V0_HCl + V_NaOH)
+    return [Cl, Na]
 
 def calculate_pH(V_NaOH: float) -> float:
     initial_H_OH = [1e-7, 1e-7]
-    solution = fsolve(equations, initial_H_OH, args=precalculate(c0_HCl, V0_HCl, V_NaOH))
+    solution = fsolve(equations, initial_H_OH, args=precalculate(c0_HCl, V0_HCl,c_NaOH, V_NaOH))
     H, OH = solution
 
-    return -math.log10(H) 
+    return (-math.log10(H) 
